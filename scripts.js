@@ -11,13 +11,12 @@ const Gameboard = (() => {
 
 	}
 	
-  return {
-    renderArray,
-  };
+	return {
+		renderArray
+	};
 })();
 
 Gameboard.renderArray();
-
 
 const displayController = (() => {
   const add = (a, b) => a + b;
