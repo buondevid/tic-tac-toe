@@ -19,6 +19,7 @@ body {
 	display: flex;
 	justify-content: center;
 	align-items: center;
+	flex-direction: column;
 }
 
 img,
@@ -52,4 +53,12 @@ select {
 	display: flex;
 	justify-content: center;
 	align-items: center;
+}
+
+#restart {
+	display: block;
+	margin-top: 10rem;
+	padding: 2rem;
+	border-radius: 15%;
+	outline: none;
 }

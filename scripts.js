@@ -1,58 +1,88 @@
-const Gameboard = (() => {
-  const gridArray = ['X', 'O', 'X', 'X', 'O', 'O', 'O', 'X', 'O'];
-	
-	const renderArray = () => {
-		for (let i = 0; i<gridArray.length; i++) {
-			document.querySelector(`div[data-pos='${i}'`).textContent = gridArray[i];
+//FACTORY FUNCTION
+const Player = (name, mark) => ({ name, mark });
+
+//CREATE objects with factory functions
+const human = Player('Davide', 'X');
+const computer = Player('AI', 'O');
+
+// MODULE
+const gameboard = (() => {
+	const gridArray = ['', '', '', '', '', '', '', '', ''];
+	const board = document.querySelector('.grid');
+	let { mark } = human;
+
+	//CHANGE mark
+	const changeMark = () => {
+		mark = mark === 'X' ? computer.mark : human.mark;
+	};
+
+	// READ grid - UPDATE array
+	const updateArray = () => {
+		for (const child of board.children) {
+			gridArray[child.dataset.pos] = child.textContent;
 		}
-	}
+	};
 
-	const addMark = () => {
+	// CREATE - Event listener adding the mark on the board and updating array
+	board.addEventListener('click', (e) => {
+		if (e.target.dataset.pos !== undefined && e.target.textContent === '') {
+			e.target.textContent = mark;
+		}
+		updateArray();
+		changeMark();
+	});
 
-	}
-	
+	//READ array - UPDATE grid
+	const renderArray = () => {
+		for (let i = 0; i < gridArray.length; i++) {
+			document.querySelector(`div[data-pos='${i}']`).textContent = gridArray[i];
+		}
+	};
+
+	//RESET array and grid
+	const resetArrayGrid = () => {
+		for (let i = 0; i < gridArray.length; i++) {
+			document.querySelector(`div[data-pos='${i}']`).textContent = '';
+			updateArray();
+		}
+	};
+
+	//INIT
+	// renderArray();
+
 	return {
-		renderArray
+		renderArray,
+		updateArray,
+		resetArrayGrid,
+		gridArray,
 	};
 })();
 
-Gameboard.renderArray();
+const game = (() => {
+	const restartButton = document.getElementById('restart');
 
-const displayController = (() => {
-  const add = (a, b) => a + b;
+	//event listeners
+	restartButton.addEventListener('click', gameboard.resetArrayGrid);
 
-  return {
-    add,
- 
-  };
+	//CHECK winning condition
+	const checkWinner = (array) => {
+		if (array[0] === array[1] === array[2]
+				|| array[3] === array[4] === array[5]
+				|| array[6] === array[7] === array[8]
+				|| array[0] === array[3] === array[6]
+				|| array[1] === array[4] === array[7]
+				|| array[2] === array[5] === array[8]
+				|| array[0] === array[4] === array[8]
+				|| array[2] === array[4] === array[6])
+			 return 'win';
+	};
+
+	const declareWinner = (win) => {
+		if (win !== 'win') return;
+		else console.log('winner')
+	}
+
+	return {
+
+	};
 })();
-
-const Player = (name, level) => {
-  let health = level * 2;
-  const getLevel = () => level;
-  const getName  = () => name;
-  const die = () => {
-    // uh oh
-  };
-  const damage = x => {
-    health -= x;
-    if (health <= 0) {
-      die();
-    }
-  };
-  const attack = enemy => {
-    if (level < enemy.getLevel()) {
-      damage(1);
-      console.log(`${enemy.getName()} has damaged ${name}`);
-    }
-    if (level >= enemy.getLevel()) {
-      enemy.damage(1);
-      console.log(`${name} has damaged ${enemy.getName()}`);
-    }
-  };
-  return {attack, damage, getLevel, getName}
-};
-
-const jimmie = Player('jim', 10);
-const badGuy = Player('jeff', 5);
-jimmie.attack(badGuy);

@@ -1,0 +1,24 @@
+{
+  "name": "tic-tac-toe",
+  "version": "1.0.0",
+  "description": "XOXO, without hugs and kisses",
+  "main": "scripts.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/buondevid/tic-tac-toe.git"
+  },
+  "author": "Davide Briano - buondevid <davidebriano@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/buondevid/tic-tac-toe/issues"
+  },
+  "homepage": "https://github.com/buondevid/tic-tac-toe#readme",
+  "devDependencies": {
+    "eslint": "^7.19.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-plugin-import": "^2.22.1"
+  }
+}
