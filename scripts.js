@@ -29,6 +29,7 @@ const gameboard = (() => {
 			e.target.textContent = mark;
 		}
 		updateArray();
+		game.checkWinOrTie(gridArray);
 		changeMark();
 	});
 
@@ -39,12 +40,13 @@ const gameboard = (() => {
 		}
 	};
 
-	// RESET array and grid
-	const resetArrayGrid = () => {
+	// RESET array, grid, screen
+	const resetGame = () => {
 		for (let i = 0; i < gridArray.length; i++) {
 			document.querySelector(`div[data-pos='${i}']`).textContent = '';
 			updateArray();
 		}
+		document.querySelector('.win').classList.remove('active');
 	};
 
 	// INIT
@@ -53,7 +55,7 @@ const gameboard = (() => {
 	return {
 		renderArray,
 		updateArray,
-		resetArrayGrid,
+		resetGame,
 		gridArray,
 	};
 })();
@@ -62,10 +64,11 @@ const game = (() => {
 	const restartButton = document.getElementById('restart');
 
 	// event listeners
-	restartButton.addEventListener('click', gameboard.resetArrayGrid);
+	restartButton.addEventListener('click', gameboard.resetGame);
 
-	// CHECK winning condition
+	// CHECK winning or tie condition and drop screen
 	const checkWinOrTie = (mapArray) => {
+		let result;
 		const array = mapArray.map((x, i) => (x === '') ? (x = i) : (x = x)); // replace "" array elements with numbers
 		if ((array[0] === array[1] && array[1] === array[2])
 				|| (array[3] === array[4] && array[4] === array[5])
@@ -75,8 +78,17 @@ const game = (() => {
 				|| (array[2] === array[5] && array[5] === array[8])
 				|| (array[0] === array[4] && array[4] === array[8])
 				|| (array[2] === array[4] && array[4] === array[6]))
-			return console.log('win');
-		if (!(mapArray.includes(''))) console.log('tie');
+		{ result = 'win'; }
+		else if (!(mapArray.includes(''))) { result = 'tie'; }
+
+		if (result === 'win') {
+			document.querySelector('.win p').textContent = 'You win';
+			document.querySelector('.win').classList.add('active');
+		}
+		else if (result === 'tie') {
+			document.querySelector('.win p').textContent = 'It\'s a tie!';
+			document.querySelector('.win').classList.add('active');
+		}
 	};
 
 	const declareWinner = (win) => {
