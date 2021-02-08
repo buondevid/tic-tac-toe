@@ -16,6 +16,9 @@ const gameboard = (() => {
 		mark = mark === 'X' ? computer.mark : human.mark;
 	};
 
+	// GETTER for mark variable
+	const getMark = () => mark;
+
 	// READ grid - UPDATE array
 	const updateArray = () => {
 		for (const child of board.children) {
@@ -47,16 +50,16 @@ const gameboard = (() => {
 			updateArray();
 		}
 		document.querySelector('.win').classList.remove('active');
+		mark = 'X';
 	};
-
-	// INIT
-	// renderArray();
 
 	return {
 		renderArray,
 		updateArray,
 		resetGame,
+		getMark,
 		gridArray,
+		mark,
 	};
 })();
 
@@ -66,10 +69,10 @@ const game = (() => {
 	// event listeners
 	restartButton.addEventListener('click', gameboard.resetGame);
 
-	// CHECK winning or tie condition and drop screen
+	// CHECK winning or tie condition and drop end screen
 	const checkWinOrTie = (mapArray) => {
 		let result;
-		const array = mapArray.map((x, i) => (x === '') ? (x = i) : (x = x)); // replace "" array elements with numbers
+		const array = mapArray.map((x, i) => (x === '') ? (x = i) : (x)); // replace "" array elements with numbers
 		if ((array[0] === array[1] && array[1] === array[2])
 				|| (array[3] === array[4] && array[4] === array[5])
 				|| (array[6] === array[7] && array[7] === array[8])
@@ -82,22 +85,15 @@ const game = (() => {
 		else if (!(mapArray.includes(''))) { result = 'tie'; }
 
 		if (result === 'win') {
-			document.querySelector('.win p').textContent = 'You win';
+			document.querySelector('.win p').textContent = `${gameboard.getMark() === 'X' ? 'First player ' : 'Second player '} wins`;
 			document.querySelector('.win').classList.add('active');
-		}
-		else if (result === 'tie') {
+		} else if (result === 'tie') {
 			document.querySelector('.win p').textContent = 'It\'s a tie!';
 			document.querySelector('.win').classList.add('active');
 		}
 	};
 
-	const declareWinner = (win) => {
-		if (win !== 'win') return;
-		console.log('winner');
-	};
-
 	return {
 		checkWinOrTie,
-		declareWinner,
 	};
 })();

@@ -17,7 +17,7 @@ body {
   line-height: 1.5;
 	font-size: 2rem;
 	display: flex;
-	justify-content: center;
+	justify-content: space-evenly;
 	align-items: center;
 	flex-direction: column;
 }
@@ -57,7 +57,7 @@ select {
 
 #restart {
 	display: block;
-	margin-top: 10rem;
+	/* margin-top: 10rem; */
 	padding: 2rem;
 	border-radius: 15%;
 	outline: none;
