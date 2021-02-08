@@ -61,4 +61,21 @@ select {
 	padding: 2rem;
 	border-radius: 15%;
 	outline: none;
+	z-index: 1;
 }
+
+.win {
+	position: fixed;
+	height: 100%;
+	width: 100%;
+	text-align: center;
+	line-height: 100vh;
+	backdrop-filter: blur(1rem);
+	transform: translateY(-100vh);
+	transition: transform 2s ease-out;
+}
+
+.active {
+	transform: translateY(0);
+}
+
