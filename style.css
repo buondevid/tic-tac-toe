@@ -8,7 +8,6 @@
 
 html {
   font-size: 62.5%;
-  /* ??min-height: 100%; */
 }
 
 body {
@@ -41,10 +40,11 @@ select {
 .grid {
 	border: 2px green solid;
 	display: grid;
-	grid-template-columns: 1fr 1fr 1fr;
-	grid-template-rows: 1fr 1fr 1fr;
-	height: 50vmin;
-	width: 50vmin;
+	position: relative;
+	grid-template-columns: repeat(3, 1fr);
+	grid-template-rows: repeat(3, 1fr);
+	height: 60vmin;
+	width: 60vmin;
 
 }
 
@@ -53,6 +53,13 @@ select {
 	display: flex;
 	justify-content: center;
 	align-items: center;
+}
+
+.grid-cover {
+	position: absolute;
+	height: 100%;
+	width: 100%;
+	background: rgba(0, 0, 0, 0.3);
 }
 
 #restart {
@@ -79,3 +86,54 @@ select {
 	transform: translateY(0);
 }
 
+.form{
+	display: flex;
+	flex-wrap: wrap;
+}
+
+.inputs-wrap {
+	position: relative;
+}
+
+.inputs {
+	margin: 2rem;
+	padding: 0.5rem;
+}
+
+i{
+	position: absolute;
+	right: 11%;
+	top: 37%;
+}
+
+.inputs[placeholder="Second Player"] {
+	direction:RTL;
+}
+
+.second-player-wrap i {
+	right: 81%;
+
+}
+
+
+i:hover {
+	color: rgba(0, 0, 0, 0.5)
+}
+
+i:active {
+	color: green;
+}
+
+.readonly {
+	border-color: transparent;
+	outline: transparent;
+	cursor: default;
+}
+
+.your-turn{
+	background-color: rgba(231, 200, 123, 0.658);
+}
+
+.hidden {
+	display: none;
+}

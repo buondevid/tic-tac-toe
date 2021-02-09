@@ -30,10 +30,10 @@ const gameboard = (() => {
 	board.addEventListener('click', (e) => {
 		if (e.target.dataset.pos && e.target.textContent === '') {
 			e.target.textContent = mark;
+			updateArray();
+			game.checkWinOrTie(gridArray);
+			changeMark();
 		}
-		updateArray();
-		game.checkWinOrTie(gridArray);
-		changeMark();
 	});
 
 	// READ array - UPDATE grid
@@ -65,6 +65,9 @@ const gameboard = (() => {
 
 const game = (() => {
 	const restartButton = document.getElementById('restart');
+	let name1;
+	let name2;
+	const gridCover = document.querySelector('.grid-cover');
 
 	// event listeners
 	restartButton.addEventListener('click', gameboard.resetGame);
@@ -92,6 +95,38 @@ const game = (() => {
 			document.querySelector('.win').classList.add('active');
 		}
 	};
+
+	//FORM event listener
+	document.querySelector('.first-player-wrap i').addEventListener('click', (e) => {
+		const input = e.target.previousElementSibling;
+		if (input.value !== '') {
+			name1 = input.value;
+			input.classList.add('readonly');
+			document.querySelector('.first-player-wrap i').classList.add('hidden');
+			input.setAttribute('readonly', '');
+			{
+				if (document.querySelector('.second-player-wrap i').classList.contains('hidden')) {
+					gridCover.classList.add('hidden');
+				}
+			}
+		}
+	});
+	document.querySelector('.second-player-wrap i').addEventListener('click', (e) => {
+		const input = e.target.previousElementSibling;
+		if (input.value !== '') {
+			name2 = input.value;
+			input.classList.add('readonly');
+			document.querySelector('.second-player-wrap i').classList.add('hidden');
+			input.setAttribute('readonly', '');
+			{
+				if (document.querySelector('.first-player-wrap i').classList.contains('hidden')) {
+					console.log(document.querySelector('.first-player-wrap i').classList);
+					gridCover.classList.add('hidden');
+				}
+			}
+		}
+	});
+
 
 	return {
 		checkWinOrTie,
