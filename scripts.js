@@ -1,19 +1,17 @@
 // FACTORY FUNCTION
 const Player = (name, mark) => ({ name, mark });
 
-// CREATE objects with factory functions
-const human = Player('Davide', 'X');
-const computer = Player('AI', 'O');
-
 // MODULE
 const gameboard = (() => {
 	const gridArray = ['', '', '', '', '', '', '', '', ''];
 	const board = document.querySelector('.grid');
-	let { mark } = human;
+	let mark = 'X';
 
 	// CHANGE mark
 	const changeMark = () => {
-		mark = mark === 'X' ? computer.mark : human.mark;
+		mark = mark === 'X' ? game.computer.mark : game.human.mark;
+		document.querySelectorAll('.inputs')[0].classList.toggle('your-turn');
+		document.querySelectorAll('.inputs')[1].classList.toggle('your-turn');
 	};
 
 	// GETTER for mark variable
@@ -50,6 +48,7 @@ const gameboard = (() => {
 			updateArray();
 		}
 		document.querySelector('.win').classList.remove('active');
+		setTimeout(() => document.querySelector('.win p').classList.remove('animation'), 1000);
 		mark = 'X';
 	};
 
@@ -68,6 +67,10 @@ const game = (() => {
 	let name1;
 	let name2;
 	const gridCover = document.querySelector('.grid-cover');
+
+	// CREATE objects with factory functions
+	const human = Player(name1, 'X');
+	const computer = Player(name2, 'O');
 
 	// event listeners
 	restartButton.addEventListener('click', gameboard.resetGame);
@@ -88,10 +91,12 @@ const game = (() => {
 		else if (!(mapArray.includes(''))) { result = 'tie'; }
 
 		if (result === 'win') {
-			document.querySelector('.win p').textContent = `${gameboard.getMark() === 'X' ? 'First player ' : 'Second player '} wins`;
+			document.querySelector('.win p').textContent = `${gameboard.getMark() === 'X' ? `${human.name} ` : `${computer.name} `} (${gameboard.getMark()}) wins`;
+			document.querySelector('.win p').classList.add('animation');
 			document.querySelector('.win').classList.add('active');
 		} else if (result === 'tie') {
 			document.querySelector('.win p').textContent = 'It\'s a tie!';
+			document.querySelector('.win p').classList.add('animation');
 			document.querySelector('.win').classList.add('active');
 		}
 	};
@@ -100,35 +105,34 @@ const game = (() => {
 	document.querySelector('.first-player-wrap i').addEventListener('click', (e) => {
 		const input = e.target.previousElementSibling;
 		if (input.value !== '') {
-			name1 = input.value;
+			human.name = input.value;
 			input.classList.add('readonly');
 			document.querySelector('.first-player-wrap i').classList.add('hidden');
 			input.setAttribute('readonly', '');
-			{
-				if (document.querySelector('.second-player-wrap i').classList.contains('hidden')) {
-					gridCover.classList.add('hidden');
-				}
+			if (document.querySelector('.second-player-wrap i').classList.contains('hidden')) {
+				gridCover.classList.add('hidden');
+				document.querySelectorAll('.inputs')[0].classList.add('your-turn');
 			}
 		}
 	});
 	document.querySelector('.second-player-wrap i').addEventListener('click', (e) => {
 		const input = e.target.previousElementSibling;
+		console.log(input);
 		if (input.value !== '') {
-			name2 = input.value;
+			computer.name = input.value;
 			input.classList.add('readonly');
 			document.querySelector('.second-player-wrap i').classList.add('hidden');
 			input.setAttribute('readonly', '');
-			{
-				if (document.querySelector('.first-player-wrap i').classList.contains('hidden')) {
-					console.log(document.querySelector('.first-player-wrap i').classList);
-					gridCover.classList.add('hidden');
-				}
+			if (document.querySelector('.first-player-wrap i').classList.contains('hidden')) {
+				gridCover.classList.add('hidden');
+				document.querySelectorAll('.inputs')[0].classList.add('your-turn');
 			}
 		}
 	});
 
-
 	return {
 		checkWinOrTie,
+		human,
+		computer,
 	};
 })();

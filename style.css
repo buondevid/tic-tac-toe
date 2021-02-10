@@ -19,6 +19,8 @@ body {
 	justify-content: space-evenly;
 	align-items: center;
 	flex-direction: column;
+	background: linear-gradient(180deg, #99b2dd, #e9afa3);
+	font-family: avenir;
 }
 
 img,
@@ -45,7 +47,9 @@ select {
 	grid-template-rows: repeat(3, 1fr);
 	height: 60vmin;
 	width: 60vmin;
-
+	font-size: 4rem;
+	color: #f9dec9;
+	text-shadow: 0 0 2rem white;
 }
 
 .cell {
@@ -64,11 +68,37 @@ select {
 
 #restart {
 	display: block;
-	/* margin-top: 10rem; */
-	padding: 2rem;
-	border-radius: 15%;
+	padding: 1rem 3rem;
+	border-radius: 5rem;
 	outline: none;
-	z-index: 1;
+	z-index: 2;
+	border: solid 0.1rem #f9dec9;
+	background-color: rgba(255, 255, 255, 0.25);
+	position: relative;
+	transition: background-color 0.5 linear;
+}
+
+#restart:hover {
+	background-color: rgba(255, 255, 255, 0.5);
+}
+
+#restart::before {
+	content: '';
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	border: inherit;
+	top: 0;
+	left: 0;
+	z-index: 0;
+	background:transparent;
+	border-radius: inherit;
+	transition: all 1s linear;
+	border: 0.5rem solid #f9dec9;
+}
+
+#restart:hover::before{
+	transform: scale(2);
 }
 
 .win {
@@ -80,6 +110,11 @@ select {
 	backdrop-filter: blur(1rem);
 	transform: translateY(-100vh);
 	transition: transform 2s ease-out;
+	font-size: 4rem;
+}
+
+.animation {
+	animation: stretch 10s 2s infinite;
 }
 
 .active {
@@ -98,6 +133,15 @@ select {
 .inputs {
 	margin: 2rem;
 	padding: 0.5rem;
+	background-color: transparent;
+	transition: transform 0.5s ease-out;
+	border-color: #f9dec9;
+}
+
+.inputs:focus {
+	/* box-shadow: 0 0 2rem 1rem #f9dec9
+	, 0 0 2rem 0.5rem #f9dec9 ; */
+	outline-color:#f9dec9;
 }
 
 i{
@@ -112,9 +156,7 @@ i{
 
 .second-player-wrap i {
 	right: 81%;
-
 }
-
 
 i:hover {
 	color: rgba(0, 0, 0, 0.5)
@@ -131,9 +173,27 @@ i:active {
 }
 
 .your-turn{
-	background-color: rgba(231, 200, 123, 0.658);
+	/* background-color: #F9DEC9; */
+	color: #f9dec9;
+	transform: scale(1.5);
 }
 
 .hidden {
 	display: none;
 }
+
+@keyframes stretch {
+	0%,
+	100% {
+		transform: scaleX(1);
+	}
+
+	50% {
+		transform: scaleX(2)
+	}
+}
+
+
+
+
+
