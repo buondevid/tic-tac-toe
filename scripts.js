@@ -31,6 +31,12 @@ const gameboard = (() => {
 			updateArray();
 			game.checkWinOrTie(gridArray);
 			changeMark();
+			if (game.getTurn() === 'ai') {
+				setTimeout(game.ai, 500);
+				updateArray();
+				game.checkWinOrTie(gridArray);
+				changeMark();
+			}
 		}
 	});
 
@@ -49,7 +55,9 @@ const gameboard = (() => {
 		}
 		document.querySelector('.win').classList.remove('active');
 		setTimeout(() => document.querySelector('.win p').classList.remove('animation'), 1000);
+
 		mark = 'X';
+		game.resetForm();
 	};
 
 	return {
@@ -57,6 +65,7 @@ const gameboard = (() => {
 		updateArray,
 		resetGame,
 		getMark,
+		board,
 		gridArray,
 		mark,
 	};
@@ -67,6 +76,7 @@ const game = (() => {
 	let name1;
 	let name2;
 	const gridCover = document.querySelector('.grid-cover');
+	let turn = '';
 
 	// CREATE objects with factory functions
 	const human = Player(name1, 'X');
@@ -119,7 +129,7 @@ const game = (() => {
 		const input = e.target.previousElementSibling;
 		console.log(input);
 		if (input.value !== '') {
-			computer.name = input.value;
+			computer.name = input.value === (/computer/ig) ? turn = 'ai' : input.value;
 			input.classList.add('readonly');
 			document.querySelector('.second-player-wrap i').classList.add('hidden');
 			input.setAttribute('readonly', '');
@@ -130,8 +140,36 @@ const game = (() => {
 		}
 	});
 
+	const resetForm = () => {
+		const input1 = document.querySelectorAll('.inputs')[0];
+		const input2 = document.querySelectorAll('.inputs')[1];
+		input1.classList.remove('readonly');
+		input2.classList.remove('readonly');
+		document.querySelector('.second-player-wrap i').classList.remove('hidden');
+		document.querySelector('.first-player-wrap i').classList.remove('hidden');
+		input1.removeAttribute('readonly');
+		input2.removeAttribute('readonly');
+		gridCover.classList.remove('hidden');
+		input1.classList.remove('your-turn');
+		input2.classList.remove('your-turn');
+		turn = '';
+	};
+
+	const ai = () => {
+		const grid = gameboard.board;
+		const random = Math.floor(Math.random() * 9) + 1;
+		if (grid.children[random].textContent === '') {
+			grid.children[random].textContent = gameboard.getMark();
+		} else ai();
+	};
+
+	const getTurn = () => turn;
+
 	return {
 		checkWinOrTie,
+		resetForm,
+		ai,
+		getTurn,
 		human,
 		computer,
 	};

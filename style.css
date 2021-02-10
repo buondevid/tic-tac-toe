@@ -93,7 +93,7 @@ select {
 	z-index: 0;
 	background:transparent;
 	border-radius: inherit;
-	transition: all 1s linear;
+	transition: all 0.5s linear;
 	border: 0.5rem solid #f9dec9;
 }
 
@@ -111,6 +111,7 @@ select {
 	transform: translateY(-100vh);
 	transition: transform 2s ease-out;
 	font-size: 4rem;
+	pointer-events: none;
 }
 
 .animation {
