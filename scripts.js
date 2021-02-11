@@ -7,6 +7,12 @@ const gameboard = (() => {
 	const board = document.querySelector('.grid');
 	let mark = 'X';
 
+	document.addEventListener('DOMContentLoaded', () => {
+		window.setTimeout(() => {
+			document.body.classList.remove('fade');
+		}, 230);
+	});
+
 	// CHANGE mark
 	const changeMark = () => {
 		mark = mark === 'X' ? game.computer.mark : game.human.mark;
@@ -31,11 +37,14 @@ const gameboard = (() => {
 			updateArray();
 			game.checkWinOrTie(gridArray);
 			changeMark();
+			console.log(getMark());
 			if (game.getTurn() === 'ai') {
-				setTimeout(game.ai, 500);
-				updateArray();
-				game.checkWinOrTie(gridArray);
-				changeMark();
+				setTimeout(function a() {
+					game.ai()
+					updateArray();
+					game.checkWinOrTie(gridArray);
+					changeMark();
+				}, (Math.floor(Math.random() * 3000)));		
 			}
 		}
 	});
@@ -104,6 +113,7 @@ const game = (() => {
 			document.querySelector('.win p').textContent = `${gameboard.getMark() === 'X' ? `${human.name} ` : `${computer.name} `} (${gameboard.getMark()}) wins`;
 			document.querySelector('.win p').classList.add('animation');
 			document.querySelector('.win').classList.add('active');
+			gridCover.classList.remove('hidden');
 		} else if (result === 'tie') {
 			document.querySelector('.win p').textContent = 'It\'s a tie!';
 			document.querySelector('.win p').classList.add('animation');
@@ -127,9 +137,10 @@ const game = (() => {
 	});
 	document.querySelector('.second-player-wrap i').addEventListener('click', (e) => {
 		const input = e.target.previousElementSibling;
-		console.log(input);
 		if (input.value !== '') {
-			computer.name = input.value === (/computer/ig) ? turn = 'ai' : input.value;
+			computer.name = input.value;
+			console.log(input.value);
+			input.value == 'computer' ? turn = 'ai' : turn = '';
 			input.classList.add('readonly');
 			document.querySelector('.second-player-wrap i').classList.add('hidden');
 			input.setAttribute('readonly', '');
@@ -152,13 +163,13 @@ const game = (() => {
 		gridCover.classList.remove('hidden');
 		input1.classList.remove('your-turn');
 		input2.classList.remove('your-turn');
-		turn = '';
 	};
 
 	const ai = () => {
 		const grid = gameboard.board;
 		const random = Math.floor(Math.random() * 9) + 1;
 		if (grid.children[random].textContent === '') {
+			console.log(gameboard.getMark());
 			grid.children[random].textContent = gameboard.getMark();
 		} else ai();
 	};

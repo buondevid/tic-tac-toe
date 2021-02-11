@@ -21,6 +21,12 @@ body {
 	flex-direction: column;
 	background: linear-gradient(180deg, #99b2dd, #e9afa3);
 	font-family: avenir;
+	opacity: 1;
+	transition: opacity 0.7s linear;
+}
+
+.fade {
+	opacity: 0;
 }
 
 img,
@@ -40,9 +46,9 @@ select {
 }
 
 .grid {
-	border: 2px green solid;
 	display: grid;
 	position: relative;
+	gap: 0.5rem;
 	grid-template-columns: repeat(3, 1fr);
 	grid-template-rows: repeat(3, 1fr);
 	height: 60vmin;
@@ -53,10 +59,10 @@ select {
 }
 
 .cell {
-	border: 1px solid red;
 	display: flex;
 	justify-content: center;
 	align-items: center;
+	background-color: rgba(0, 0, 0, 0.1);
 }
 
 .grid-cover {
@@ -64,6 +70,7 @@ select {
 	height: 100%;
 	width: 100%;
 	background: rgba(0, 0, 0, 0.3);
+	transition: opacity 0.5s linear;
 }
 
 #restart {
@@ -90,7 +97,7 @@ select {
 	border: inherit;
 	top: 0;
 	left: 0;
-	z-index: 0;
+	z-index: 1;
 	background:transparent;
 	border-radius: inherit;
 	transition: all 0.5s linear;
@@ -180,7 +187,9 @@ i:active {
 }
 
 .hidden {
-	display: none;
+	height: 0;
+	opacity: 0;
+	transition: opacity 0.5s linear, height 0s 0.5s;
 }
 
 @keyframes stretch {
