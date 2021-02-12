@@ -144,11 +144,10 @@ select {
 	background-color: transparent;
 	transition: transform 0.5s ease-out;
 	border-color: #f9dec9;
+	transform-origin: left;
 }
 
 .inputs:focus {
-	/* box-shadow: 0 0 2rem 1rem #f9dec9
-	, 0 0 2rem 0.5rem #f9dec9 ; */
 	outline-color:#f9dec9;
 }
 
@@ -160,10 +159,29 @@ i{
 
 .inputs[placeholder="Second Player"] {
 	direction:RTL;
+	transform-origin: right;
 }
 
-.second-player-wrap i {
+.second-player-wrap:focus-within::before {
+	content: 'Write computer if you want to play against the AI';
+	height: 100%;
+	width: 100%;
+	font-size: 1rem;
+	position: absolute;
+	top: 80%;
+	left: 9%;
+}
+
+.second-player-wrap i.far {
 	right: 81%;
+}
+
+.second-player-wrap i.fas {
+	right: -8%;
+}
+
+.robot {
+	transition: opacity 1s linear;
 }
 
 i:hover {
@@ -172,6 +190,10 @@ i:hover {
 
 i:active {
 	color: green;
+}
+
+.player-names {
+	animation: player-names 3s linear;
 }
 
 .readonly {
@@ -203,6 +225,24 @@ i:active {
 	}
 }
 
+@keyframes player-names {
+	0%,
+	100% {
+		background-color: initial;
+	}
+
+	50% {
+		background-color: #fdf3ec;
+		box-shadow: 0 0 5rem 2rem #fdf3ec;
+	}
+}
+
+@media (max-width: 600px) {
+	.form{
+		justify-content: center;
+		align-items: center;
+	}
+}
 
 
 

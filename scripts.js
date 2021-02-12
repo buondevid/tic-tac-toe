@@ -31,21 +31,35 @@ const gameboard = (() => {
 	};
 
 	// CREATE - Event listener adding the mark on the board and updating array
+	let allowClick = true;
+	let allowClickGridCover = true;
+	const setAllowClick = (boolean) => {
+		allowClick = boolean;
+	};
 	board.addEventListener('click', (e) => {
-		if (e.target.dataset.pos && e.target.textContent === '') {
+		if (e.target.dataset.pos && e.target.textContent === '' && allowClick) {
+			allowClick = false;
 			e.target.textContent = mark;
 			updateArray();
-			game.checkWinOrTie(gridArray);
-			changeMark();
-			console.log(getMark());
-			if (game.getTurn() === 'ai') {
-				setTimeout(function a() {
-					game.ai()
+			game.checkWinOrTie(gridArray) && changeMark();
+			if (game.getTurn() === 'ai' && game.checkWinOrTie(gridArray)) {
+				setTimeout(() => {
+					game.ai();
 					updateArray();
 					game.checkWinOrTie(gridArray);
 					changeMark();
-				}, (Math.floor(Math.random() * 3000)));		
-			}
+					allowClick = true;
+				}, (Math.floor(Math.random() * 3000)));
+			} else allowClick = true;
+		} else if (e.target === document.querySelector('.grid-cover') && allowClickGridCover) {
+			allowClickGridCover = false;
+			document.querySelectorAll('.inputs')[0].classList.add('player-names');
+			document.querySelectorAll('.inputs')[1].classList.add('player-names');
+			setTimeout(() => {
+				document.querySelectorAll('.inputs')[0].classList.remove('player-names');
+				document.querySelectorAll('.inputs')[1].classList.remove('player-names');
+				allowClickGridCover = true;
+			}, 3100);
 		}
 	});
 
@@ -74,6 +88,7 @@ const gameboard = (() => {
 		updateArray,
 		resetGame,
 		getMark,
+		setAllowClick,
 		board,
 		gridArray,
 		mark,
@@ -110,15 +125,19 @@ const game = (() => {
 		else if (!(mapArray.includes(''))) { result = 'tie'; }
 
 		if (result === 'win') {
+			console.log(gameboard.getMark());
 			document.querySelector('.win p').textContent = `${gameboard.getMark() === 'X' ? `${human.name} ` : `${computer.name} `} (${gameboard.getMark()}) wins`;
 			document.querySelector('.win p').classList.add('animation');
 			document.querySelector('.win').classList.add('active');
 			gridCover.classList.remove('hidden');
+			return false;
 		} else if (result === 'tie') {
 			document.querySelector('.win p').textContent = 'It\'s a tie!';
 			document.querySelector('.win p').classList.add('animation');
 			document.querySelector('.win').classList.add('active');
+			return false;
 		}
+		return true;
 	};
 
 	//FORM event listener
@@ -139,8 +158,12 @@ const game = (() => {
 		const input = e.target.previousElementSibling;
 		if (input.value !== '') {
 			computer.name = input.value;
-			console.log(input.value);
-			input.value == 'computer' ? turn = 'ai' : turn = '';
+			if ((/computer/ig).test(input.value)) {
+				const robotIcon = document.querySelector('.second-player-wrap i:last-child');
+				turn = 'ai';
+				robotIcon.classList.add('fas', 'fa-robot');
+				robotIcon.classList.remove('fade');
+			} else turn = '';
 			input.classList.add('readonly');
 			document.querySelector('.second-player-wrap i').classList.add('hidden');
 			input.setAttribute('readonly', '');
@@ -152,6 +175,9 @@ const game = (() => {
 	});
 
 	const resetForm = () => {
+		gameboard.setAllowClick(true);
+		document.querySelector('.second-player-wrap i:last-child').classList.remove('fas', 'fa-robot');
+		document.querySelector('.second-player-wrap i:last-child').classList.add('fade');
 		const input1 = document.querySelectorAll('.inputs')[0];
 		const input2 = document.querySelectorAll('.inputs')[1];
 		input1.classList.remove('readonly');
@@ -163,6 +189,7 @@ const game = (() => {
 		gridCover.classList.remove('hidden');
 		input1.classList.remove('your-turn');
 		input2.classList.remove('your-turn');
+		gameboard.allowClick = true;
 	};
 
 	const ai = () => {
