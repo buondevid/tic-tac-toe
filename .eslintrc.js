@@ -14,5 +14,6 @@ module.exports = {
 		'no-tabs': ['off'],
 		indent: ['warn', 'tab'],
 		'no-plusplus': ['off'],
+		'no-unused-expressions': ['error', { allowShortCircuit: true, allowTernary: true }],
 	},
 };
