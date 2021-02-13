@@ -8,11 +8,12 @@
 
 html {
   font-size: 62.5%;
+	height: -webkit-fill-available;
 }
 
 body {
-  min-height: 100%;
-  min-height: 100vh;
+	min-height: 100vh;
+	min-height: -webkit-fill-available;
   line-height: 1.5;
 	font-size: 2rem;
 	display: flex;
@@ -114,6 +115,7 @@ select {
 	width: 100%;
 	text-align: center;
 	line-height: 100vh;
+	-webkit-backdrop-filter: blur(1rem);
 	backdrop-filter: blur(1rem);
 	transform: translateY(-100vh);
 	transition: transform 2s ease-out;
@@ -218,7 +220,7 @@ i:active {
 	padding: 1rem;
 	font-size: 1.5rem; 
 	white-space: pre;
-	opacity: 0.4;
+	opacity: 0.3;
 	position: absolute;
 	bottom: 0;
 }
