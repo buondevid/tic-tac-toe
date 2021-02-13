@@ -182,9 +182,9 @@ const game = (() => {
 		}
 	});
 
-	const _resetGame = () => {
+	function _resetGame() {
 		gameboard.setAllowClick(true);
-		game.resetBoard();
+		gameboard.resetBoard();
 		document.querySelector('.second-player-wrap i:last-child').classList.remove('fas', 'fa-robot');
 		document.querySelector('.second-player-wrap i:last-child').classList.add('fade');
 		input1.classList.remove('readonly');
@@ -196,7 +196,7 @@ const game = (() => {
 		gridCover.classList.remove('hidden');
 		input1.classList.remove('your-turn');
 		input2.classList.remove('your-turn');
-	};
+	}
 
 	const ai = () => {
 		const grid = gameboard.board;

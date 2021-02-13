@@ -214,6 +214,15 @@ i:active {
 	transition: opacity 0.5s linear, height 0s 0.5s;
 }
 
+.signature {
+	padding: 1rem;
+	font-size: 1.5rem; 
+	white-space: pre;
+	opacity: 0.4;
+	position: absolute;
+	bottom: 0;
+}
+
 @keyframes stretch {
 	0%,
 	100% {
