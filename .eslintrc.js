@@ -15,5 +15,7 @@ module.exports = {
 		indent: ['warn', 'tab'],
 		'no-plusplus': ['off'],
 		'no-unused-expressions': ['error', { allowShortCircuit: true, allowTernary: true }],
+		'no-underscore-dangle': ['off'],
+		'no-use-before-define': ['warn', { functions: true, classes: true }],
 	},
 };

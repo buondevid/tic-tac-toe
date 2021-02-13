@@ -1,7 +1,7 @@
-// FACTORY FUNCTION
-const Player = (name, mark) => ({ name, mark });
+// **** FACTORY FUNCTION
+const player = (name, mark) => ({ name, mark });
 
-// MODULE
+// **** MODULE PATTERN GAME BOARD
 const gameboard = (() => {
 	const gridArray = ['', '', '', '', '', '', '', '', ''];
 	const board = document.querySelector('.grid');
@@ -14,7 +14,7 @@ const gameboard = (() => {
 	});
 
 	// CHANGE mark
-	const changeMark = () => {
+	const _changeMark = () => {
 		mark = mark === 'X' ? game.computer.mark : game.human.mark;
 		document.querySelectorAll('.inputs')[0].classList.toggle('your-turn');
 		document.querySelectorAll('.inputs')[1].classList.toggle('your-turn');
@@ -24,7 +24,7 @@ const gameboard = (() => {
 	const getMark = () => mark;
 
 	// READ grid - UPDATE array
-	const updateArray = () => {
+	const _updateArray = () => {
 		// eslint-disable-next-line no-restricted-syntax
 		for (const child of board.children) {
 			gridArray[child.dataset.pos] = child.textContent;
@@ -41,14 +41,14 @@ const gameboard = (() => {
 		if (e.target.dataset.pos && e.target.textContent === '' && allowClick) {
 			allowClick = false;
 			e.target.textContent = mark;
-			updateArray();
-			game.checkWinOrTie(gridArray) && changeMark();
+			_updateArray();
+			game.checkWinOrTie(gridArray) && _changeMark();
 			if (game.getTurn() === 'ai' && game.checkWinOrTie(gridArray)) {
 				setTimeout(() => {
 					game.ai();
-					updateArray();
+					_updateArray();
 					game.checkWinOrTie(gridArray);
-					changeMark();
+					_changeMark();
 					allowClick = true;
 				}, (Math.floor(Math.random() * 3000)));
 			} else allowClick = true;
@@ -72,25 +72,25 @@ const gameboard = (() => {
 	// };
 
 	// RESET array, grid, screen
-	const resetGame = () => {
+	const resetBoard = () => {
 		for (let i = 0; i < gridArray.length; i++) {
 			document.querySelector(`div[data-pos='${i}']`).textContent = '';
-			updateArray();
+			_updateArray();
 		}
 		document.querySelector('.win').classList.remove('active');
 		setTimeout(() => document.querySelector('.win p').classList.remove('animation'), 1000);
 		mark = 'X';
-		game.resetForm();
 	};
 
 	return {
-		resetGame,
+		resetBoard,
 		getMark,
 		setAllowClick,
 		board,
 	};
 })();
 
+// **** MODULE PATTERN GAME
 const game = (() => {
 	const restartButton = document.getElementById('restart');
 	let name1;
@@ -101,11 +101,11 @@ const game = (() => {
 	const input2 = document.querySelectorAll('.inputs')[1];
 
 	// CREATE objects with factory functions
-	const human = Player(name1, 'X');
-	const computer = Player(name2, 'O');
+	const human = player(name1, 'X');
+	const computer = player(name2, 'O');
 
-	// event listeners
-	restartButton.addEventListener('click', gameboard.resetGame);
+	// RESET button event listener
+	restartButton.addEventListener('click', _resetGame);
 
 	// CHECK winning or tie condition and drop end screen
 	const checkWinOrTie = (mapArray) => {
@@ -182,8 +182,9 @@ const game = (() => {
 		}
 	});
 
-	const resetForm = () => {
+	const _resetGame = () => {
 		gameboard.setAllowClick(true);
+		game.resetBoard();
 		document.querySelector('.second-player-wrap i:last-child').classList.remove('fas', 'fa-robot');
 		document.querySelector('.second-player-wrap i:last-child').classList.add('fade');
 		input1.classList.remove('readonly');
@@ -195,7 +196,6 @@ const game = (() => {
 		gridCover.classList.remove('hidden');
 		input1.classList.remove('your-turn');
 		input2.classList.remove('your-turn');
-		gameboard.allowClick = true;
 	};
 
 	const ai = () => {
@@ -210,7 +210,6 @@ const game = (() => {
 
 	return {
 		checkWinOrTie,
-		resetForm,
 		ai,
 		getTurn,
 		human,
