@@ -4,9 +4,9 @@
 <h2 align='center'>XOXO, when it doesn't mean hugs and kisses</h2>
 
 <p align='center' style="display:flex;justify-content:space-evenly;">
-<img src='assets/home.png' width=300px height=400px>
-<img src='assets/playing.png' width=300px height=400px>
-<img src='assets/win.png' width=300px height=400px>
+<img src='assets/home.png' width=250px height=350px>
+<img src='assets/playing.png' width=250px height=350px>
+<img src='assets/win.png' width=250px height=350px>
 </p>
 
 This app was created using only HTML, CSS and Vanilla JS.
