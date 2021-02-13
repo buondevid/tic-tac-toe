@@ -1,9 +1,9 @@
 
 
 <h1 align='center'>Tic Tac Toe</h1> 
-<h2 align='center'>XOXO, when it doesn't mean hugs and kisses</h2>
+<h3 align='center'>XOXO, when it doesn't mean hugs and kisses</h3>
 
-<p align='center' style="display:flex;justify-content:space-evenly;">
+<p align='center'>
 <img src='assets/home.png' width=250px height=350px>
 <img src='assets/playing.png' width=250px height=350px>
 <img src='assets/win.png' width=250px height=350px>
