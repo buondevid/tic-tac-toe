@@ -160,7 +160,7 @@ i{
 }
 
 .inputs[placeholder="Second Player"] {
-	direction:RTL;
+	text-align: right;
 	transform-origin: right;
 }
 
